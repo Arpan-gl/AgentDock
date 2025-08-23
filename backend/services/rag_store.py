@@ -8,9 +8,10 @@ COLLECTION_NAME = "stockbase"
 
 class RAGStore:
     def __init__(self):
+        # Ensure the required environment variable is set for chromadb embedding function
         self.client = chromadb.Client()
         self.collection = self.client.get_or_create_collection(COLLECTION_NAME)
-        self.embedder = embedding_functions.GoogleGenerativeAiEmbeddingFunction(api_key=settings.GEMINI_API_KEY)
+        self.embedder = embedding_functions.GoogleGenerativeAiEmbeddingFunction(api_key=os.getenv("CHROMA_GOOGLE_GENAI_API_KEY"))
 
     def ingest(self, paths: List[str]):
         for path in paths:
